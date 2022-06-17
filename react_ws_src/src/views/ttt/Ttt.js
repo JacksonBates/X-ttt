@@ -41,6 +41,7 @@ export default class Ttt extends Component {
 														onSetType={this.saveGameType.bind(this)} 
 													/>}
 					{game_step == 'start_game' && <GameMain 
+														startTimer={this.setStartTime.bind(this)}
 														game_type={this.state.game_type}
 														onEndGame={this.gameEnd.bind(this)} 
 													/>}
@@ -95,6 +96,12 @@ export default class Ttt extends Component {
 			return 'set_game_type'
 		else
 			return 'start_game'
+	}
+
+//	------------------------	------------------------	------------------------
+	
+	setStartTime (time) {
+		app.settings.start_time = time;
 	}
 
 }

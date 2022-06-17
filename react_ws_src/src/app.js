@@ -65,6 +65,7 @@ app.extend({
 		basket_type: null,
 		basket_total: 0,
 
+		start_time: null,
 	},
 
 

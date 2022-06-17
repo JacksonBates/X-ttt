@@ -153,6 +153,8 @@ export default class SetName extends Component {
 	click_cell (e) {
 		// console.log(e.currentTarget.id.substr(11))
 		// console.log(e.currentTarget)
+		const time = new Date();
+		if (!app.settings.start_time) this.props.startTimer(time);
 
 		if (!this.state.next_turn_ply || !this.state.game_play) return
 
@@ -318,7 +320,7 @@ export default class SetName extends Component {
 			TweenMax.from('td.win', 1, {opacity: 0, ease: Linear.easeIn})
 
 			this.setState({
-				game_stat: (cell_vals[set[0]]=='x'?'You':'Opponent')+' win',
+				game_stat: (cell_vals[set[0]]=='x'?'You':'Opponent')+` win (in ${(new Date() - app.settings.start_time)/1000} seconds)`,
 				game_play: false
 			})
 
@@ -327,7 +329,7 @@ export default class SetName extends Component {
 		} else if (fin) {
 		
 			this.setState({
-				game_stat: 'Draw',
+				game_stat: `Draw (in ${(new Date() - app.settings.start_time)/1000} seconds)`,
 				game_play: false
 			})
 
@@ -347,7 +349,7 @@ export default class SetName extends Component {
 
 	end_game () {
 		this.socket && this.socket.disconnect();
-
+		this.props.startTimer(null)
 		this.props.onEndGame()
 	}
 
