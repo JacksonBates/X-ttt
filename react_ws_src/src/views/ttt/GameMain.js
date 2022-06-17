@@ -201,7 +201,20 @@ export default class SetName extends Component {
 			!cell_vals['c'+i] && empty_cells_arr.push('c'+i)
 		// console.log(cell_vals, empty_cells_arr, rand_arr_elem(empty_cells_arr))
 
-		const c = rand_arr_elem(empty_cells_arr)
+		// My thinking here is that it is quite boring to play a computer that
+		// chooses randomly - a fractionally more intelligent opponent would
+		// prioritise the middle, then corners, then finally center edges
+		const best_cell = 'c5';
+		const optimal_cells = ['c1', 'c3', 'c7', 'c9'];
+		const remaining_optimal_cells = empty_cells_arr.filter((cell) => optimal_cells.includes(cell))
+		let candidate_cells = empty_cells_arr;
+
+		if (empty_cells_arr.includes(best_cell)) {
+			candidate_cells = [best_cell];
+		} else if (remaining_optimal_cells.length > 0) {
+			candidate_cells = remaining_optimal_cells
+		} 
+		const c = rand_arr_elem(candidate_cells);
 		cell_vals[c] = 'o'
 
 		TweenMax.from(this.refs[c], 0.7, {opacity: 0, scaleX:0, scaleY:0, ease: Power4.easeOut})
